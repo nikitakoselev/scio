@@ -83,7 +83,7 @@ object PrivateClass {
 
 case class UsesPrivateClass(privateClass: PrivateClass)
 
-case class ClassWithProtoEnum(s: String, enum: OuterClassForProto.EnumExample)
+case class ClassWithProtoEnum(s: String, `enum`: OuterClassForProto.EnumExample)
 
 @SerialVersionUID(1)
 sealed trait TraitWithAnnotation
@@ -97,7 +97,7 @@ final case class AnyValExample(value: String) extends AnyVal
 final case class NonDeterministic(a: Double, b: Double)
 
 final class CoderTest extends AnyFlatSpec with Matchers {
-  val userId: UserId = UserId(Array[Byte](1, 2, 3, 4))
+  val userId: UserId = UserId(Seq[Byte](1, 2, 3, 4))
   val user: User = User(userId, "johndoe", "johndoe@spotify.com")
 
   def materialize[T](coder: Coder[T]): BCoder[T] =
@@ -601,7 +601,7 @@ final class CoderTest extends AnyFlatSpec with Matchers {
 
   it should "optimize for AnyVal" in {
     coderIsSerializable[AnyValExample]
-    Coder[AnyValExample] shouldBe a[Transform[String, AnyValExample]]
+    Coder[AnyValExample] shouldBe a[Transform[_, _]]
   }
 
   it should "support Algebird's Moments" in {
